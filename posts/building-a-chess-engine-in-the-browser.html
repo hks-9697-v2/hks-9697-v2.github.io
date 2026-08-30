@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Building a 60 FPS Chess Engine in the Browser — Harsh Shah</title>
+  <meta name="description" content="An architectural breakdown of building a high-speed chess engine completely client-side in the browser using Web Workers, 64-bit Zobrist Transposition Tables, and Micro-NNUE.">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <!-- Top Navigation -->
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="../index.html" class="site-title">
+        <span>Harsh Shah</span>
+      </a>
+      <nav>
+        <ul class="site-nav">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#projects">Projects</a></li>
+          <li><a href="../index.html#blog" class="active">Blog</a></li>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Central Essay Sheet Container -->
+  <main class="page-wrapper" style="max-width: 860px;">
+    
+    <article>
+      <div style="font-family: var(--font-sans); font-size: 0.88rem; color: var(--text-light); margin-bottom: 12px;">
+        <a href="../index.html" style="text-decoration: none;">← Back to Home</a> · <time datetime="2026-08-30">August 30, 2026</time> · 6 min read
+      </div>
+
+      <h1>Building a 60 FPS Chess Engine in the Browser</h1>
+      <p class="intro-bio" style="font-size: 1.15rem; font-style: italic; border-bottom: 1px solid var(--border-color); padding-bottom: 20px;">
+        How we built an interactive, 100% static Chess AI featuring 64-bit Zobrist Transposition Tables, Micro-NNUE neural network evaluation, and thread isolation with Web Workers.
+      </p>
+
+      <p>
+        Building a chess engine that runs entirely in the browser without any backend server presents unique challenges: JavaScript runs in a single-threaded event loop, and executing deep minimax tree searches on the main thread immediately freezes the browser UI, causing dropped frames and laggy piece dragging.
+      </p>
+
+      <p>
+        In this writeup, we explore the key techniques used to build <a href="https://hks-9697-v2.github.io/Chess-AI/" target="_blank" rel="noopener"><strong>Chess AI</strong></a>, keeping the user interface at a buttery 60 FPS while evaluating thousands of positions in parallel.
+      </p>
+
+      <h2>1. Multi-Threaded Architecture with Web Workers</h2>
+      <p>
+        To decouple heavy computation from the UI, the engine offloads all search operations to a dedicated <code>Web Worker</code> (<code>worker.js</code>). The main thread strictly handles chessboard rendering, animations, and user input:
+      </p>
+
+      <pre><code>// Main thread dispatches search request without blocking UI
+engineWorker.postMessage({
+  type: 'SEARCH',
+  fen: game.fen(),
+  depth: 4,
+  evalMode: 'nnue',
+  isWhite: false
+});
+
+// Worker streams real-time search telemetry back
+engineWorker.onmessage = function(e) {
+  if (e.data.type === 'BEST_MOVE') {
+    game.ugly_move(e.data.bestMove);
+    board.position(game.fen());
+  }
+};</code></pre>
+
+      <h2>2. 64-Bit Zobrist Transposition Tables</h2>
+      <p>
+        Different move sequences often lead to identical board positions (transpositions). Rather than re-evaluating subtrees from scratch, we use <strong>Zobrist Hashing</strong> with pre-allocated Typed Arrays (<code>BigUint64Array</code> and <code>Int32Array</code>) to maintain an in-memory hash table of 524,288 entries (~16 MB):
+      </p>
+
+      <blockquote>
+        $$\text{Hash}(S) = \bigoplus_{sq=0}^{63} \text{ZobristPieces}[\text{piece}(sq), sq] \oplus \text{SideToMove}$$
+      </blockquote>
+
+      <p>
+        When searching a position, the engine probes the table. If a previous search evaluated this exact state at an equal or greater depth, it produces an immediate \(O(1)\) cutoff:
+      </p>
+
+      <ul>
+        <li><strong>Exact Cutoff:</strong> Stored score reflects true minimax value within bounds.</li>
+        <li><strong>Lowerbound Cutoff:</strong> Stored score caused a beta-cutoff (\(\text{score} \ge \beta\)).</li>
+        <li><strong>Upperbound Cutoff:</strong> Stored score failed low (\(\text{score} \le \alpha\)).</li>
+      </ul>
+
+      <h2>3. Micro-NNUE: Neural Network Evaluation</h2>
+      <p>
+        In addition to classical Piece-Square Tables (PST), the engine implements <strong>Micro-NNUE</strong>—a quantized \(768 \to 32 \to 32 \to 1\) neural network evaluated with dual accumulators and Clipped-ReLU integer arithmetic:
+      </p>
+
+      <blockquote>
+        $$\text{CReLU}(x) = \min(\max(0, x), 127)$$
+      </blockquote>
+
+      <p>
+        The dual-accumulator architecture calculates features simultaneously from White's and Black's perspective, ensuring that symmetrical positions return an exact score of \(0.00\).
+      </p>
+
+      <h2>4. Try the Live Demo</h2>
+      <p>
+        You can test the engine live in your browser, switch between evaluation models, experiment with search depths, and explore opening repertoires:
+      </p>
+
+      <p style="text-align: center; margin: 32px 0;">
+        <a href="https://hks-9697-v2.github.io/Chess-AI/" target="_blank" rel="noopener" style="display: inline-block; background: #111827; color: #ffffff; padding: 12px 24px; border-radius: 6px; font-family: var(--font-sans); font-weight: 600; text-decoration: none; box-shadow: 0 4px 12px rgba(0,0,0,0.15);">
+          ▶ Launch Chess AI Live Demo
+        </a>
+      </p>
+
+      <div style="border-top: 1px solid var(--border-color); margin-top: 40px; padding-top: 20px; font-family: var(--font-sans); font-size: 0.9rem; color: var(--text-muted);">
+        <p>Source code available on GitHub: <a href="https://github.com/hks-9697-v2/Chess-AI" target="_blank" rel="noopener">github.com/hks-9697-v2/Chess-AI</a></p>
+      </div>
+
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <p>
+      <a href="../index.html">← Harsh Shah's Home</a> · Designed in the spirit of <a href="https://colah.github.io" target="_blank" rel="noopener">colah's blog</a>
+    </p>
+  </footer>
+
+</body>
+</html>

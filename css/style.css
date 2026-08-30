@@ -1,8 +1,3 @@
-/* ==========================================================================
-   Colah-Inspired Clean Academic & Engineering Stylesheet
-   Designed for Harsh Shah (hks-9697-v2.github.io)
-   ========================================================================== */
-
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
 
 :root {
@@ -15,39 +10,31 @@
   --border-color: #e0e0e0;
   --border-dark: #222222;
   --accent-color: #2563eb;
-  --accent-hover: #1d4ed8;
-  --font-serif: 'Lora', 'Computer Modern Serif', 'Droid Serif', Georgia, 'Times New Roman', serif;
-  --font-sans: 'Inter', 'Droid Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-serif: 'Lora', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-mono: 'Fira Code', Menlo, Monaco, Consolas, monospace;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+* { box-sizing: border-box; margin: 0; padding: 0; }
 
 html, body {
   min-height: 100%;
-  background-color: var(--bg-backdrop);
+  background: url('../images/grass.jpg') no-repeat center center fixed;
+  background-size: cover;
   color: var(--text-main);
   font-family: var(--font-serif);
   font-size: 18px;
   line-height: 1.65;
-  letter-spacing: -0.01em;
   -webkit-font-smoothing: antialiased;
 }
 
-/* ==========================================================================
-   Navigation Bar (Colah Top Navbar Style)
-   ========================================================================== */
+/* Navbar */
 .site-header {
   background-color: #1a1a1a;
-  color: #ffffff;
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .nav-container {
@@ -66,19 +53,13 @@ html, body {
   font-size: 1.1rem;
   color: #ffffff;
   text-decoration: none;
-  letter-spacing: -0.02em;
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
 
-.site-title:hover {
-  color: #93c5fd;
-}
+.site-title:hover { color: #93c5fd; }
 
 .site-nav {
   display: flex;
-  gap: 20px;
+  gap: 4px;
   list-style: none;
   font-family: var(--font-sans);
   font-size: 0.92rem;
@@ -88,111 +69,41 @@ html, body {
 .site-nav a {
   color: #d1d5db;
   text-decoration: none;
-  transition: color 0.15s ease;
-  padding: 6px 4px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  transition: color 0.15s;
 }
 
-.site-nav a:hover,
-.site-nav a.active {
-  color: #ffffff;
-  border-bottom: 2px solid #38bdf8;
-}
+.site-nav a:hover, .site-nav a.active { color: #ffffff; background: rgba(255,255,255,0.08); }
 
-/* Mobile Nav Toggle */
-.nav-toggle {
-  display: none;
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 1.4rem;
-  cursor: pointer;
-}
-
-/* ==========================================================================
-   Central Content Wrapper (Colah Indexsheet Style)
-   ========================================================================== */
+/* Page wrapper */
 .page-wrapper {
   max-width: 920px;
   margin: 28px auto 48px;
   padding: 40px 48px;
-  background-color: var(--bg-sheet);
+  background-color: rgba(251, 251, 251, 0.96);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   border: 1px solid var(--border-color);
   border-radius: 4px;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.05);
 }
 
-/* ==========================================================================
-   Headings & Text Typography
-   ========================================================================== */
-h1 {
-  font-family: var(--font-serif);
-  font-size: 2.2rem;
-  font-weight: 700;
-  line-height: 1.25;
-  margin-bottom: 16px;
-  color: #111111;
-  letter-spacing: -0.02em;
-}
+/* Typography */
+h1 { font-family: var(--font-serif); font-size: 2.2rem; font-weight: 700; margin-bottom: 16px; color: #111; }
+h2 { font-family: var(--font-serif); font-size: 1.45rem; font-weight: 700; margin-top: 36px; margin-bottom: 16px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; color: #111; }
+h3 { font-family: var(--font-sans); font-size: 1.05rem; font-weight: 600; margin-top: 24px; margin-bottom: 10px; }
+p { margin-bottom: 16px; }
+a { color: #111827; text-decoration: underline; text-decoration-color: #9ca3af; text-underline-offset: 3px; transition: color 0.15s; }
+a:hover { color: var(--accent-color); text-decoration-color: var(--accent-color); }
 
-h2 {
-  font-family: var(--font-serif);
-  font-size: 1.45rem;
-  font-weight: 700;
-  line-height: 1.35;
-  margin-top: 36px;
-  margin-bottom: 16px;
-  color: #111111;
-  border-bottom: 1px solid var(--border-color);
-  padding-bottom: 8px;
-}
+.intro-bio { margin-bottom: 28px; padding-bottom: 24px; border-bottom: 1px solid var(--border-color); }
+.intro-bio p:last-child { margin-bottom: 0; }
 
-h3 {
-  font-family: var(--font-sans);
-  font-size: 1.15rem;
-  font-weight: 600;
-  margin-top: 24px;
-  margin-bottom: 10px;
-  color: #1f2937;
-}
-
-p {
-  margin-bottom: 18px;
-  color: #222222;
-}
-
-a {
-  color: #111827;
-  text-decoration: underline;
-  text-decoration-color: #9ca3af;
-  text-underline-offset: 3px;
-  transition: all 0.15s ease;
-}
-
-a:hover {
-  color: var(--accent-color);
-  text-decoration-color: var(--accent-color);
-}
-
-/* Intro / Bio Banner */
-.intro-bio {
-  font-size: 1.08rem;
-  line-height: 1.7;
-  color: #333333;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.intro-bio p:last-child {
-  margin-bottom: 0;
-}
-
-/* ==========================================================================
-   Colah-Style Visual Project Cards Grid
-   ========================================================================== */
+/* Projects grid */
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 20px;
   margin: 24px 0 36px;
 }
@@ -206,227 +117,99 @@ a:hover {
   flex-direction: column;
   text-decoration: none;
   color: inherit;
-  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
 }
 
 .project-card:hover {
   transform: translateY(-3px);
-  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 18px rgba(0,0,0,0.1);
   border-color: var(--accent-color);
   text-decoration: none;
 }
 
 .project-card-image {
   width: 100%;
-  height: 140px;
-  background: #1e293b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 160px;
   overflow: hidden;
   border-bottom: 1.5px solid var(--border-dark);
+}
+
+.project-card-content { padding: 14px 16px; flex-grow: 1; display: flex; flex-direction: column; }
+.project-card-title { font-family: var(--font-serif); font-size: 1.08rem; font-weight: 700; margin: 0 0 6px; color: #111; }
+.project-card-desc { font-family: var(--font-sans); font-size: 0.86rem; line-height: 1.45; color: var(--text-muted); margin-bottom: 0; }
+
+/* Blog list */
+.post-list { list-style: none; margin: 16px 0 28px; }
+.post-item { padding: 14px 0; border-bottom: 1px dashed var(--border-color); }
+.post-item:last-child { border-bottom: none; }
+.post-link { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 600; color: #111827; }
+.post-link:hover { color: var(--accent-color); }
+.post-date { font-family: var(--font-sans); font-size: 0.85rem; color: var(--text-light); }
+
+/* Timeline */
+.timeline {
   position: relative;
+  margin: 16px 0 28px 12px;
+  padding-left: 24px;
+  border-left: 2px solid var(--border-color);
 }
 
-.project-card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.tl-item { position: relative; margin-bottom: 24px; }
+.tl-last { margin-bottom: 0; }
+
+.tl-dot {
+  position: absolute;
+  left: -33px; top: 5px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--text-main);
+  border: 2px solid var(--bg-sheet);
+  box-shadow: 0 0 0 2px var(--text-main);
 }
 
-.project-card-image .project-icon-placeholder {
-  font-size: 3rem;
-  color: #ffffff;
-}
+.tl-dot-edu { background: #6b7280; box-shadow: 0 0 0 2px #6b7280; }
+.tl-body { padding-left: 4px; }
+.tl-header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; margin-bottom: 2px; }
+.tl-role { font-family: var(--font-sans); font-weight: 600; font-size: 0.95rem; color: #111; }
+.tl-company { font-family: var(--font-sans); font-size: 0.88rem; color: var(--text-muted); }
+.tl-company::before { content: "· "; }
+.tl-date { display: block; font-family: var(--font-sans); font-size: 0.8rem; color: var(--text-light); font-style: italic; margin: 2px 0 4px; }
+.tl-desc { font-family: var(--font-sans); font-size: 0.88rem; color: var(--text-muted); line-height: 1.5; margin: 0; }
 
-.project-card-content {
-  padding: 14px 16px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-}
-
-.project-card-title {
-  font-family: var(--font-serif);
-  font-size: 1.12rem;
-  font-weight: 700;
-  margin: 0 0 6px;
-  color: #111111;
-  line-height: 1.3;
-}
-
-.project-card-desc {
-  font-family: var(--font-sans);
-  font-size: 0.86rem;
-  line-height: 1.45;
-  color: var(--text-muted);
-  margin-bottom: 12px;
-  flex-grow: 1;
-}
-
-.project-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: auto;
-}
-
-.tag {
-  font-family: var(--font-sans);
-  font-size: 0.72rem;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  background: #f3f4f6;
-  color: #374151;
-  border: 1px solid #e5e7eb;
-}
-
-.tag-primary {
-  background: #eff6ff;
-  color: #1d4ed8;
-  border-color: #bfdbfe;
-}
-
-/* ==========================================================================
-   Colah-Style Archive Blog List
-   ========================================================================== */
-.post-list {
-  list-style: none;
-  margin: 20px 0 36px;
-}
-
-.post-item {
-  padding: 14px 0;
-  border-bottom: 1px dashed var(--border-color);
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.post-item:last-child {
-  border-bottom: none;
-}
-
-.post-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.post-link {
-  font-family: var(--font-serif);
-  font-size: 1.15rem;
-  font-weight: 600;
-  color: #111827;
-  text-decoration: underline;
-  text-decoration-color: #cbd5e1;
-  text-underline-offset: 3px;
-}
-
-.post-link:hover {
-  color: var(--accent-color);
-  text-decoration-color: var(--accent-color);
-}
-
-.post-date {
-  font-family: var(--font-sans);
-  font-size: 0.85rem;
-  color: var(--text-light);
-  white-space: nowrap;
-}
-
-.post-snippet {
-  font-family: var(--font-sans);
-  font-size: 0.9rem;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-top: 4px;
-  margin-bottom: 0;
-}
-
-/* ==========================================================================
-   Blockquotes, Code, & Callouts
-   ========================================================================== */
-blockquote {
-  background: #f5f5f5;
-  border-left: 4px solid #111111;
-  padding: 14px 20px;
-  margin: 20px 0;
-  font-style: italic;
-  border-radius: 0 6px 6px 0;
-  color: #333333;
-}
-
-pre {
-  background: #1e1e24;
-  color: #f8fafc;
-  font-family: var(--font-mono);
-  font-size: 0.88rem;
-  padding: 16px 20px;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin: 20px 0;
-}
-
-code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
-  background: #f1f5f9;
-  color: #0f172a;
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid #e2e8f0;
-}
-
-pre code {
-  background: transparent;
-  color: inherit;
-  padding: 0;
-  border: none;
-}
-
-/* ==========================================================================
-   Footer
-   ========================================================================== */
+/* Footer */
 .site-footer {
   text-align: center;
   font-family: var(--font-sans);
-  font-size: 0.85rem;
-  color: var(--text-light);
-  padding: 24px 20px 48px;
+  font-size: 0.88rem;
+  padding: 16px 20px 48px;
+}
+
+.site-footer p {
+  display: inline-block;
+  background: rgba(17, 24, 39, 0.85);
+  color: #f1f5f9;
+  padding: 8px 20px;
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  margin-bottom: 0;
 }
 
 .site-footer a {
-  color: var(--text-muted);
-  text-decoration: none;
+  color: #93c5fd;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 500;
 }
 
 .site-footer a:hover {
-  color: var(--accent-color);
-  text-decoration: underline;
+  color: #ffffff;
 }
 
-/* ==========================================================================
-   Responsive Breakpoints
-   ========================================================================== */
 @media (max-width: 768px) {
-  .page-wrapper {
-    margin: 12px;
-    padding: 24px 20px;
-  }
-  
-  h1 {
-    font-size: 1.8rem;
-  }
-  
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .site-nav {
-    gap: 12px;
-  }
+  .page-wrapper { margin: 12px; padding: 24px 20px; }
+  h1 { font-size: 1.8rem; }
+  .projects-grid { grid-template-columns: 1fr; }
 }

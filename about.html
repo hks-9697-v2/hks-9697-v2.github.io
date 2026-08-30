@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Harsh Shah</title>
+  <meta name="description" content="About Harsh Shah — Senior ML Engineer at Google Cloud.">
+  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+  <style>
+    body { background: #222; }
+
+    .profile-container {
+      width: 100%;
+      min-height: calc(100vh - 56px);
+      display: grid;
+    }
+
+    @media (min-width: 900px) {
+      .profile-container {
+        grid-template-columns: 2fr 2fr;
+        grid-template-rows: 1fr;
+      }
+      .profile-background {
+        background: #111 url('images/chess-board.jpg') no-repeat center center;
+        background-size: cover;
+        opacity: 0.6;
+        width: 100%;
+      }
+      .profile {
+        padding: 80px 60px 80px 60px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .profile-container {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40vw auto;
+      }
+      .profile-background {
+        background: #111 url('images/chess-board.jpg') no-repeat center center;
+        background-size: cover;
+        opacity: 0.6;
+        min-height: 40vw;
+      }
+      .profile {
+        padding: 40px 28px;
+      }
+    }
+
+    .profile {
+      background-color: #222;
+      color: #ddd;
+    }
+
+    .profile h1 {
+      color: #fff;
+      font-size: 2rem;
+      margin-bottom: 20px;
+      margin-top: 0;
+      border: none;
+    }
+
+    .profile h2 {
+      color: #bbb;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-top: 32px;
+      margin-bottom: 12px;
+      padding-bottom: 0;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-family: var(--font-sans);
+    }
+
+    .profile p {
+      font-size: 1.05rem;
+      color: #ccc;
+      line-height: 1.7;
+      text-align: left;
+    }
+
+    .profile a { color: #fff; font-weight: 600; text-decoration: underline; text-decoration-color: #888; }
+    .profile a:hover { color: #93c5fd; text-decoration-color: #93c5fd; }
+
+    /* Timeline in dark mode */
+    .profile .timeline {
+      border-left-color: #444;
+      margin-left: 8px;
+    }
+    .profile .tl-dot { background: #aaa; box-shadow: 0 0 0 2px #aaa; border-color: #222; }
+    .profile .tl-dot-edu { background: #666; box-shadow: 0 0 0 2px #666; }
+    .profile .tl-role { color: #eee; }
+    .profile .tl-company { color: #999; }
+    .profile .tl-date { color: #777; }
+    .profile .tl-desc { color: #aaa; }
+
+    .links-row { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 4px; }
+    .links-row a { font-family: var(--font-sans); font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="index.html" class="site-title">Harsh Shah</a>
+      <nav>
+        <ul class="site-nav">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html" class="active">About</a></li>
+          <li><a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="profile-container">
+
+    <div class="profile-background"></div>
+
+    <div class="profile">
+      <h1>Harsh Shah</h1>
+
+      <p>
+        Senior ML Engineer at <strong>Google Cloud</strong>, on the AI Ninja team. We work on optimizing training and inference on TPUs and GPUs for large-scale AI models.
+      </p>
+      <p>
+        Previously at <strong>Uber</strong> on the Core Matching team, working on how riders and drivers are matched to each other.
+      </p>
+
+      <h2>Timeline</h2>
+
+      <div class="timeline">
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-role">Senior ML Engineer</span>
+              <span class="tl-company">Google Cloud · Hyderabad</span>
+            </div>
+            <span class="tl-date">May 2025 – Present</span>
+            <p class="tl-desc">AI Ninja team. Optimizing training and inference on TPUs and GPUs for large-scale AI models.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-role">Software Engineer</span>
+              <span class="tl-company">Uber · San Francisco</span>
+            </div>
+            <span class="tl-date">Oct 2022 – May 2025</span>
+            <p class="tl-desc">Core Matching team. How riders and drivers are matched to each other.</p>
+          </div>
+        </div>
+
+        <div class="tl-item">
+          <div class="tl-dot"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-role">Software Engineer</span>
+              <span class="tl-company">Uber · Bengaluru</span>
+            </div>
+            <span class="tl-date">July 2019 – Oct 2022</span>
+            <p class="tl-desc">Uber Bus team. Automated planning and scheduling for B2B transit.</p>
+          </div>
+        </div>
+
+        <div class="tl-item tl-last">
+          <div class="tl-dot tl-dot-edu"></div>
+          <div class="tl-body">
+            <div class="tl-header">
+              <span class="tl-role">B.Tech, Computer Science</span>
+              <span class="tl-company">NIT Karnataka, Surathkal</span>
+            </div>
+            <span class="tl-date">2015 – 2019</span>
+          </div>
+        </div>
+
+      </div>
+
+      <h2>Contact</h2>
+      <div class="links-row">
+        <a href="mailto:harsh.shah.hks@gmail.com">Email</a>
+        <a href="http://www.linkedin.com/in/harsh-shah-654416141" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/hks-9697" target="_blank" rel="noopener">GitHub (old)</a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

@@ -3,205 +3,109 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Harsh Shah — Personal Site & Blog</title>
-  <meta name="description" content="Personal website, machine learning research notes, and engineering projects by Harsh Shah.">
-  <link rel="stylesheet" href="css/style.css">
+  <title>Harsh Shah</title>
+  <meta name="description" content="Personal website and projects by Harsh Shah.">
+  <link rel="stylesheet" href="css/style.css?v=4">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
 </head>
 <body>
 
-  <!-- Top Navigation -->
   <header class="site-header">
     <div class="nav-container">
-      <a href="index.html" class="site-title">
-        <span>Harsh Shah</span>
-      </a>
+      <a href="index.html" class="site-title">Harsh Shah</a>
       <nav>
         <ul class="site-nav">
           <li><a href="index.html" class="active">Home</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#blog">Blog</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener noreferrer">GitHub ↗</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener">GitHub ↗</a></li>
         </ul>
       </nav>
     </div>
   </header>
 
-  <!-- Central Sheet Container -->
   <main class="page-wrapper">
-    
-    <!-- Hero / Intro -->
+
+    <!-- Intro -->
     <section class="intro-bio">
       <h1>Harsh Shah</h1>
-      <p>
-        Hi, welcome to my corner of the web! I am a software engineer and machine learning practitioner interested in artificial intelligence, search algorithms, interactive visualizations, and computer systems.
-      </p>
-      <p>
-        Inspired by the visual and expository writing of <a href="https://colah.github.io" target="_blank" rel="noopener">Christopher Olah</a> and Distill, this site hosts my engineering projects, interactive demos, and technical notes.
-      </p>
+      <p>Hi, I'm Harsh. This is my personal site where I share engineering projects and technical writeups.</p>
     </section>
 
-    <!-- Projects Section -->
+    <!-- Blog -->
+    <section id="blog">
+      <h2>Blog</h2>
+      <ul class="post-list">
+        <li class="post-item">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 8px;">
+            <a href="posts/the-death-of-the-transformer-is-only-the-beginning.html" class="post-link">
+              The death of the transformer is only the begining
+            </a>
+            <span class="post-date">August 2026</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Recent Work / Open Source -->
+    <section id="recent-work">
+      <h2>Recent Work</h2>
+
+      <ul class="post-list">
+        <li class="post-item">
+          <div>
+            <a href="https://github.com/hks-9697-v2/sglang-jax/commit/d2a69bc3f9b43d85e6da03986a9c8355d76ec21f" target="_blank" rel="noopener" class="post-link">
+              Sglang: Gemma 4 support ↗
+            </a>
+          </div>
+          <p class="post-snippet">
+            Added Gemma 4 model architecture and inference support in sglang-jax.
+          </p>
+        </li>
+        <li class="post-item">
+          <div>
+            <a href="https://github.com/hks-9697-v2/whisper-tpu-google" target="_blank" rel="noopener" class="post-link">
+              Whisper inference on TPU ↗
+            </a>
+          </div>
+          <p class="post-snippet">
+            Optimized Whisper speech-to-text model inference pipeline for Google Cloud TPUs.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Projects -->
     <section id="projects">
-      <h2>Featured Projects</h2>
-      <p style="font-size: 0.95rem; color: var(--text-muted);">
-        Interactive tools, experiments, and systems running in the browser.
-      </p>
+      <h2>Projects</h2>
 
       <div class="projects-grid">
-        
-        <!-- Chess AI Project Card -->
+
         <a href="https://hks-9697-v2.github.io/Chess-AI/" target="_blank" rel="noopener" class="project-card">
-          <div class="project-card-image" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);">
-            <svg width="68" height="68" viewBox="0 0 45 45" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.5 4L27 15H18L22.5 4Z" fill="#38bdf8"/>
-              <path d="M15 17H30L33 26H12L15 17Z" fill="#38bdf8" opacity="0.85"/>
-              <path d="M12 28H33L36 38H9L12 28Z" fill="#38bdf8" opacity="0.7"/>
-              <rect x="7" y="39" width="31" height="4" rx="2" fill="#38bdf8"/>
-            </svg>
+          <div class="project-card-image" style="background: #0f172a;">
+            <img src="images/chess-board.jpg" alt="Chess board with pieces mid-game" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="project-card-content">
-            <h3 class="project-card-title">Chess AI Engine ↗</h3>
-            <p class="project-card-desc">
-              High-performance client-side chess engine featuring 64-bit Zobrist Transposition Tables, Micro-NNUE neural network evaluation, Web Worker threading, and a 1,274-opening ECO explorer.
-            </p>
-            <div class="project-tags">
-              <span class="tag tag-primary">Live Demo</span>
-              <span class="tag">JavaScript</span>
-              <span class="tag">NNUE</span>
-              <span class="tag">Web Workers</span>
-              <span class="tag">Zobrist TT</span>
-            </div>
+            <h3 class="project-card-title">Play Chess ↗</h3>
           </div>
         </a>
 
-        <!-- Neural Net Visualization Card -->
-        <a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener" class="project-card">
-          <div class="project-card-image" style="background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);">
-            <svg width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#a5b4fc" stroke-width="1.5">
-              <circle cx="6" cy="6" r="3"/>
-              <circle cx="6" cy="18" r="3"/>
-              <circle cx="18" cy="12" r="3"/>
-              <line x1="9" y1="7" x2="15" y2="11"/>
-              <line x1="9" y1="17" x2="15" y2="13"/>
-            </svg>
+        <a href="https://github.com/hks-9697-v2/nanochat.jax" target="_blank" rel="noopener" class="project-card">
+          <div class="project-card-image" style="background: #0a0a0a;">
+            <img src="images/nanochat-jax.jpg" alt="nanochat.jax training run" style="width:100%; height:100%; object-fit:cover;">
           </div>
           <div class="project-card-content">
-            <h3 class="project-card-title">Neural Architecture Labs</h3>
-            <p class="project-card-desc">
-              Experiments in neural network pruning, quantized matrix operations, and lightweight inference architectures running in constrained computational environments.
-            </p>
-            <div class="project-tags">
-              <span class="tag">Deep Learning</span>
-              <span class="tag">Quantization</span>
-              <span class="tag">PyTorch</span>
-            </div>
-          </div>
-        </a>
-
-        <!-- Search Algorithms & Heuristics Card -->
-        <a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener" class="project-card">
-          <div class="project-card-image" style="background: linear-gradient(135deg, #064e3b 0%, #065f46 100%);">
-            <svg width="68" height="68" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" stroke-width="1.5">
-              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
-              <polyline points="2 17 12 22 22 17"/>
-              <polyline points="2 12 12 17 22 12"/>
-            </svg>
-          </div>
-          <div class="project-card-content">
-            <h3 class="project-card-title">Adversarial Search & Heuristics</h3>
-            <p class="project-card-desc">
-              Comparative benchmark and implementation of minimax variants including MTD-f, Principal Variation Search (PVS), Null Move Pruning, and Killer Move heuristics.
-            </p>
-            <div class="project-tags">
-              <span class="tag">Algorithms</span>
-              <span class="tag">Game Theory</span>
-              <span class="tag">Alpha-Beta</span>
-            </div>
+            <h3 class="project-card-title">nanochat.jax ↗</h3>
+            <p class="project-card-desc">A JAX training repo designed in the spirit of Andrej Karpathy's nanoChat.</p>
           </div>
         </a>
 
       </div>
     </section>
 
-    <!-- Blog & Writing Section -->
-    <section id="blog">
-      <h2>Blog & Technical Notes</h2>
-      <p style="font-size: 0.95rem; color: var(--text-muted);">
-        Articles, architectural deep-dives, and research writeups.
-      </p>
-
-      <ul class="post-list">
-        
-        <li class="post-item">
-          <div class="post-header">
-            <a href="posts/building-a-chess-engine-in-the-browser.html" class="post-link">
-              Building a 60 FPS Chess AI in Pure JavaScript: Web Workers, Transposition Tables, and Micro-NNUE
-            </a>
-            <span class="post-date">August 2026</span>
-          </div>
-          <p class="post-snippet">
-            An architectural breakdown of building a high-speed chess engine completely client-side in the browser. Exploring 64-bit Zobrist hashing in BigUint64Array, dual-accumulator neural networks, and thread isolation with Web Workers.
-          </p>
-        </li>
-
-        <li class="post-item">
-          <div class="post-header">
-            <a href="posts/understanding-alpha-beta-and-mtdf.html" class="post-link">
-              Understanding Game Tree Search: From Minimax to MTD-f and PVS
-            </a>
-            <span class="post-date">July 2026</span>
-          </div>
-          <p class="post-snippet">
-            Visualizing adversarial search pruning. How zero-window searches and memory-enhanced test drivers (MTD-f) optimize tree traversal compared to classic Alpha-Beta.
-          </p>
-        </li>
-
-        <li class="post-item">
-          <div class="post-header">
-            <a href="posts/quantized-neural-networks-on-the-web.html" class="post-link">
-              Micro-NNUE: Quantized Evaluation Functions for High-Throughput Inference
-            </a>
-            <span class="post-date">June 2026</span>
-          </div>
-          <p class="post-snippet">
-            How dual-perspective accumulators and Clipped-ReLU integer activations enable low-latency neural network inference directly in standard browser runtimes.
-          </p>
-        </li>
-
-      </ul>
-    </section>
-
-    <!-- About & Contact Section -->
-    <section id="about">
-      <h2>About Me</h2>
-      <p>
-        I am a software engineer focused on building robust systems, algorithms, and applied machine learning tools. I enjoy taking foundational computer science concepts—from heuristic tree searches to quantized neural networks—and bringing them to life with clean, interactive interfaces.
-      </p>
-      
-      <blockquote>
-        "The goal of computing is insight, not numbers." — Richard Hamming
-      </blockquote>
-
-      <h3>Connect & Links</h3>
-      <ul style="margin-left: 24px; margin-bottom: 20px; font-family: var(--font-sans); font-size: 0.95rem; line-height: 1.8;">
-        <li><strong>GitHub:</strong> <a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener">github.com/hks-9697-v2</a></li>
-        <li><strong>Email:</strong> <a href="mailto:harsh.shah.hks@gmail.com">harsh.shah.hks@gmail.com</a></li>
-        <li><strong>Chess AI Demo:</strong> <a href="https://hks-9697-v2.github.io/Chess-AI/" target="_blank" rel="noopener">hks-9697-v2.github.io/Chess-AI/</a></li>
-      </ul>
-    </section>
-
   </main>
 
-  <!-- Colah-Style Footer -->
   <footer class="site-footer">
-    <p>
-      Designed in the spirit of <a href="https://colah.github.io" target="_blank" rel="noopener">colah's blog</a> · Built with HTML5 & Vanilla CSS
-    </p>
-    <p style="margin-top: 6px; font-size: 0.8rem; color: #888888;">
-      © 2026 Harsh Shah. All rights reserved.
-    </p>
+    <p>Designed in the spirit of <a href="https://colah.github.io" target="_blank" rel="noopener">colah's blog</a> · Built with HTML5 & CSS</p>
   </footer>
 
 </body>

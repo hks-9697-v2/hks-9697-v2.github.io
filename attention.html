@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Attention Mechanism — Sketch Diagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✎</text></svg>">
+  <style>
+    :root {
+      --bg-paper: #faf8f5;
+      --bg-card: #ffffff;
+      --ink: #1f2429;
+      --ink-pencil: #525c66;
+      --ink-faint: #8c97a4;
+      --border-sketch: #2c3238;
+      --font-sketch: 'Caveat', cursive;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(rgba(40, 50, 60, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .nav-bar {
+      width: 100%;
+      max-width: 1080px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-bar a {
+      color: var(--ink-pencil);
+      text-decoration: none;
+      font-family: var(--font-sketch);
+      font-size: 1.25rem;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .nav-bar a:hover { color: #000; }
+
+    .sketch-card {
+      width: 100%;
+      max-width: 1080px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-sketch);
+      border-radius: 8px 16px 6px 14px / 14px 6px 16px 8px;
+      box-shadow: 
+        4px 5px 0px rgba(30, 35, 42, 0.12),
+        10px 20px 35px rgba(0, 0, 0, 0.04);
+      padding: 36px 32px 32px;
+      position: relative;
+    }
+
+    .header-area {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .header-title {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+    }
+
+    .svg-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 6px 0;
+    }
+
+    svg.sketch-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-width: 960px;
+      user-select: none;
+    }
+
+    .matrix-group {
+      transition: transform 0.15s ease, filter 0.15s ease;
+      cursor: default;
+    }
+    .matrix-group:hover {
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+    }
+  </style>
+</head>
+<body>
+
+  <header class="nav-bar">
+    <a href="./posts/the-death-of-the-transformer-is-only-the-beginning.html">
+      ← Back to article
+    </a>
+    <span style="font-family: var(--font-sketch); font-size: 1.15rem; color: var(--ink-faint);">
+      ✎ Sketched diagram
+    </span>
+  </header>
+
+  <main class="sketch-card">
+    <header class="header-area">
+      <h1 class="header-title">Attention(Q, K, V) = Softmax( Q · Kᵀ / √d ) · V</h1>
+    </header>
+
+    <div class="svg-scroll-container">
+      <svg class="sketch-svg" viewBox="0 0 840 230" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <marker id="arrPurple" viewBox="0 0 12 12" refX="10" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M 1 2 L 10 6 L 1 10 L 4 6 Z" fill="#7c3aed" />
+          </marker>
+        </defs>
+
+        <!-- ============================================================ -->
+        <!-- 1. MATRIX Q (Queries: Non-square N×d = 3×2) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(30, 45)">
+          <text x="28" y="-12" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#1d4ed8" text-anchor="middle">Q</text>
+          
+          <!-- Outer Box: 56 wide x 84 high -->
+          <rect x="0" y="0" width="56" height="84" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8" />
+          
+          <!-- Grid Lines: 2 cols x 3 rows -->
+          <line x1="28" y1="0" x2="28" y2="84" stroke="#bfdbfe" stroke-width="1.2" />
+          <line x1="0" y1="28" x2="56" y2="28" stroke="#bfdbfe" stroke-width="1.2" />
+          <line x1="0" y1="56" x2="56" y2="56" stroke="#bfdbfe" stroke-width="1.2" />
+
+          <!-- Row i highlight -->
+          <rect x="1" y="29" width="54" height="26" fill="#dbeafe" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="3 2" />
+          <text x="28" y="47" font-family="'Caveat', cursive" font-size="16" font-weight="700" fill="#1e40af" text-anchor="middle">qᵢ</text>
+
+          <text x="28" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Queries (N×d)</text>
+          <text x="28" y="124" font-family="'Caveat', cursive" font-size="14" fill="#94a3b8" text-anchor="middle">row = token i</text>
+        </g>
+
+        <!-- OPERATOR × -->
+        <text x="110" y="93" font-family="'Inter', sans-serif" font-size="24" font-weight="600" fill="#64748b" text-anchor="middle">×</text>
+
+        <!-- ============================================================ -->
+        <!-- 2. MATRIX Kᵀ (Keys Transposed: Non-square d×N = 2×3) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(135, 45)">
+          <text x="42" y="2" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#854d0e" text-anchor="middle">Kᵀ</text>
+          
+          <!-- Outer Box: 84 wide x 56 high (vertically centered at y=14) -->
+          <rect x="0" y="14" width="84" height="56" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.8" />
+          
+          <!-- Grid Lines: 3 cols x 2 rows -->
+          <line x1="28" y1="14" x2="28" y2="70" stroke="#fef08a" stroke-width="1.2" />
+          <line x1="56" y1="14" x2="56" y2="70" stroke="#fef08a" stroke-width="1.2" />
+          <line x1="0" y1="42" x2="84" y2="42" stroke="#fef08a" stroke-width="1.2" />
+
+          <!-- Col j highlight -->
+          <rect x="29" y="15" width="26" height="54" fill="#fef08a" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3 2" />
+          <text x="42" y="47" font-family="'Caveat', cursive" font-size="16" font-weight="700" fill="#854d0e" text-anchor="middle">kⱼ</text>
+
+          <text x="42" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Keysᵀ (d×N)</text>
+          <text x="42" y="124" font-family="'Caveat', cursive" font-size="14" fill="#94a3b8" text-anchor="middle">col = token j</text>
+        </g>
+
+        <!-- OPERATOR = -->
+        <text x="244" y="93" font-family="'Inter', sans-serif" font-size="24" font-weight="600" fill="#64748b" text-anchor="middle">=</text>
+
+        <!-- ============================================================ -->
+        <!-- 3. MATRIX S (Raw Scores: Square N×N = 3×3) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(270, 45)">
+          <text x="42" y="-12" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Q·Kᵀ / √d</text>
+          
+          <!-- Outer Box: 84 x 84 -->
+          <rect x="0" y="0" width="84" height="84" rx="4" fill="#f8fafc" stroke="#475569" stroke-width="1.8" />
+          
+          <!-- 3x3 Grid Lines -->
+          <line x1="28" y1="0" x2="28" y2="84" stroke="#cbd5e1" stroke-width="1.2" />
+          <line x1="56" y1="0" x2="56" y2="84" stroke="#cbd5e1" stroke-width="1.2" />
+          <line x1="0" y1="28" x2="84" y2="28" stroke="#cbd5e1" stroke-width="1.2" />
+          <line x1="0" y1="56" x2="84" y2="56" stroke="#cbd5e1" stroke-width="1.2" />
+
+          <!-- Cell (i, j) highlight -->
+          <rect x="29" y="29" width="26" height="26" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.8" />
+          <text x="42" y="47" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#5b21b6" text-anchor="middle">sᵢⱼ</text>
+
+          <text x="42" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Scores (N×N)</text>
+          <text x="42" y="124" font-family="'Caveat', cursive" font-size="14" fill="#6d28d9" text-anchor="middle">sᵢⱼ = qᵢ · kⱼ / √d</text>
+        </g>
+
+        <!-- ============================================================ -->
+        <!-- 4. SOFTMAX ARROW -->
+        <!-- ============================================================ -->
+        <g transform="translate(368, 75)">
+          <path d="M 5 12 C 22 -6, 46 -6, 62 12" stroke="#7c3aed" stroke-width="2" fill="none" marker-end="url(#arrPurple)" />
+          <text x="34" y="-10" font-family="'Caveat', cursive" font-size="19" font-weight="700" fill="#6d28d9" text-anchor="middle">Softmax</text>
+          <text x="34" y="32" font-family="'Caveat', cursive" font-size="14" fill="#7c3aed" text-anchor="middle">row-wise</text>
+        </g>
+
+        <!-- ============================================================ -->
+        <!-- 5. MATRIX A (Attention Weights: Square N×N = 3×3) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(448, 45)">
+          <text x="42" y="-12" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#7e22ce" text-anchor="middle">A</text>
+          
+          <!-- Outer Box: 84 x 84 -->
+          <rect x="0" y="0" width="84" height="84" rx="4" fill="#faf5ff" stroke="#9333ea" stroke-width="1.8" />
+          
+          <!-- Probability shading -->
+          <rect x="0" y="0" width="28" height="28" fill="#f3e8ff" />
+          <rect x="28" y="0" width="28" height="28" fill="#e9d5ff" />
+          <rect x="56" y="0" width="28" height="28" fill="#faf5ff" />
+
+          <rect x="0" y="28" width="28" height="28" fill="#e9d5ff" />
+          <rect x="28" y="28" width="28" height="28" fill="#c084fc" /> <!-- high weight -->
+          <rect x="56" y="28" width="28" height="28" fill="#f3e8ff" />
+
+          <rect x="0" y="56" width="28" height="28" fill="#faf5ff" />
+          <rect x="28" y="56" width="28" height="28" fill="#f3e8ff" />
+          <rect x="56" y="56" width="28" height="28" fill="#e9d5ff" />
+
+          <!-- Grid Lines -->
+          <line x1="28" y1="0" x2="28" y2="84" stroke="#d8b4fe" stroke-width="1.2" />
+          <line x1="56" y1="0" x2="56" y2="84" stroke="#d8b4fe" stroke-width="1.2" />
+          <line x1="0" y1="28" x2="84" y2="28" stroke="#d8b4fe" stroke-width="1.2" />
+          <line x1="0" y1="56" x2="84" y2="56" stroke="#d8b4fe" stroke-width="1.2" />
+
+          <!-- Full Row i Highlight -->
+          <rect x="1" y="29" width="82" height="26" fill="#ede9fe" fill-opacity="0.45" stroke="#7c3aed" stroke-width="1.6" stroke-dasharray="3 2" />
+
+          <!-- Row i elements -->
+          <text x="14" y="46" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#6b21a8" text-anchor="middle">aᵢ₁</text>
+          <text x="42" y="46" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#4c1d95" text-anchor="middle">aᵢ₂</text>
+          <text x="70" y="46" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#6b21a8" text-anchor="middle">aᵢ₃</text>
+
+          <!-- Compact Curly Brace on Full Row i for Σ = 1 -->
+          <path d="M 86 31 Q 89 31 89 37 Q 89 42 92 42 Q 89 42 89 47 Q 89 53 86 53" stroke="#7c3aed" stroke-width="1.3" fill="none" stroke-linecap="round" />
+          <text x="94" y="46" font-family="'Caveat', cursive" font-size="13" font-weight="700" fill="#6d28d9">Σ=1</text>
+
+          <text x="42" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Weights (N×N)</text>
+          <text x="42" y="124" font-family="'Caveat', cursive" font-size="14" font-weight="600" fill="#7e22ce" text-anchor="middle">full row: Σ aᵢⱼ = 1</text>
+        </g>
+
+        <!-- OPERATOR × -->
+        <text x="586" y="93" font-family="'Inter', sans-serif" font-size="24" font-weight="600" fill="#64748b" text-anchor="middle">×</text>
+
+        <!-- ============================================================ -->
+        <!-- 6. MATRIX V (Values: Non-square N×d = 3×2) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(610, 45)">
+          <text x="28" y="-12" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#15803d" text-anchor="middle">V</text>
+          
+          <!-- Outer Box: 56 wide x 84 high -->
+          <rect x="0" y="0" width="56" height="84" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8" />
+          
+          <!-- Grid Lines: 2 cols x 3 rows -->
+          <line x1="28" y1="0" x2="28" y2="84" stroke="#bbf7d0" stroke-width="1.2" />
+          <line x1="0" y1="28" x2="56" y2="28" stroke="#bbf7d0" stroke-width="1.2" />
+          <line x1="0" y1="56" x2="56" y2="56" stroke="#bbf7d0" stroke-width="1.2" />
+
+          <!-- Row j highlight -->
+          <rect x="1" y="29" width="54" height="26" fill="#dcfce7" stroke="#15803d" stroke-width="1.5" stroke-dasharray="3 2" />
+          <text x="28" y="47" font-family="'Caveat', cursive" font-size="16" font-weight="700" fill="#15803d" text-anchor="middle">vⱼ</text>
+
+          <text x="28" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Values (N×d)</text>
+          <text x="28" y="124" font-family="'Caveat', cursive" font-size="14" fill="#94a3b8" text-anchor="middle">row = content j</text>
+        </g>
+
+        <!-- OPERATOR = -->
+        <text x="690" y="93" font-family="'Inter', sans-serif" font-size="24" font-weight="600" fill="#64748b" text-anchor="middle">=</text>
+
+        <!-- ============================================================ -->
+        <!-- 7. MATRIX Z (Output: Non-square N×d = 3×2) -->
+        <!-- ============================================================ -->
+        <g class="matrix-group" transform="translate(715, 45)">
+          <text x="28" y="-12" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="600" fill="#c2410c" text-anchor="middle">Z = A · V</text>
+          
+          <!-- Outer Box: 56 wide x 84 high -->
+          <rect x="0" y="0" width="56" height="84" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="2" />
+          
+          <!-- Grid Lines: 2 cols x 3 rows -->
+          <line x1="28" y1="0" x2="28" y2="84" stroke="#fed7aa" stroke-width="1.2" />
+          <line x1="0" y1="28" x2="56" y2="28" stroke="#fed7aa" stroke-width="1.2" />
+          <line x1="0" y1="56" x2="56" y2="56" stroke="#fed7aa" stroke-width="1.2" />
+
+          <!-- Row i highlight -->
+          <rect x="1" y="29" width="54" height="26" fill="#ffedd5" stroke="#c2410c" stroke-width="1.8" />
+          <text x="28" y="47" font-family="'Caveat', cursive" font-size="16" font-weight="700" fill="#c2410c" text-anchor="middle">zᵢ</text>
+
+          <text x="28" y="106" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Output (N×d)</text>
+          <text x="28" y="124" font-family="'Caveat', cursive" font-size="14" fill="#c2410c" text-anchor="middle">zᵢ = Σ aᵢⱼ · vⱼ</text>
+        </g>
+      </svg>
+    </div>
+  </main>
+
+</body>
+</html>

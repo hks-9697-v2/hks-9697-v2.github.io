@@ -1,0 +1,288 @@
+<svg viewBox="0 0 1160 450" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&amp;family=JetBrains+Mono:wght@500;600&amp;family=Inter:wght@400;500;600&amp;display=swap');
+    .matrix-group {
+      transition: transform 0.15s ease, filter 0.15s ease;
+      cursor: default;
+    }
+    .matrix-group:hover {
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+    }
+  </style>
+  <defs>
+    <!-- Organic pencil stroke filter -->
+    <filter id="roughPencil" x="-4%" y="-4%" width="108%" height="108%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" result="noise" seed="12" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
+    <!-- Pencil Hatching Patterns -->
+    <pattern id="pBlue" width="5" height="5" patternTransform="rotate(40 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#1d4ed8" stroke-width="1.2" stroke-opacity="0.3" />
+    </pattern>
+    <pattern id="pGold" width="5" height="5" patternTransform="rotate(-40 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#a16207" stroke-width="1.2" stroke-opacity="0.35" />
+    </pattern>
+    <pattern id="pPurple" width="4" height="4" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="4" stroke="#6d28d9" stroke-width="1.4" stroke-opacity="0.38" />
+    </pattern>
+    <pattern id="pGreenStrong" width="4" height="4" patternTransform="rotate(35 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="4" stroke="#15803d" stroke-width="1.5" stroke-opacity="0.45" />
+    </pattern>
+    <pattern id="pOrange" width="5" height="5" patternTransform="rotate(-35 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="5" stroke="#c2410c" stroke-width="1.4" stroke-opacity="0.4" />
+    </pattern>
+
+    <!-- Hand-drawn arrowheads -->
+    <marker id="arrowGray" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#475569" />
+    </marker>
+    <marker id="arrowPurple" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#6d28d9" />
+    </marker>
+    <marker id="arrowOrange" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#c2410c" />
+    </marker>
+  </defs>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 1 HEADER & ELEMENTS (LEFT SIDE: x = 24 .. 456)         -->
+  <!-- ============================================================ -->
+  <g transform="translate(24, 24)">
+    <rect x="0" y="0" width="90" height="28" rx="5" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.5" filter="url(#roughPencil)" />
+    <text x="45" y="19" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#5b21b6" text-anchor="middle">STAGE I</text>
+    <text x="102" y="20" font-family="'Caveat', cursive" font-size="22" font-weight="700" fill="#1e293b">
+      Where to Attend: Similarity Grid &amp; Row Softmax
+    </text>
+  </g>
+
+  <!-- 1. Kᵀ (2×3) Aligned ABOVE the Score Grid -->
+  <g class="matrix-group" transform="translate(154, 82)">
+    <text x="45" y="-10" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#854d0e" text-anchor="middle">Kᵀ <tspan font-family="'Caveat', cursive" font-size="15">(d×N = 2×3)</tspan></text>
+    
+    <!-- Outer box: 90 wide x 56 high -->
+    <rect x="0" y="0" width="90" height="56" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.8" filter="url(#roughPencil)" />
+    <line x1="30" y1="0" x2="30" y2="56" stroke="#fde047" stroke-width="1.2" />
+    <line x1="60" y1="0" x2="60" y2="56" stroke="#fde047" stroke-width="1.2" />
+    <line x1="0" y1="28" x2="90" y2="28" stroke="#fde047" stroke-width="1.2" />
+
+    <!-- Highlight column j=2 -->
+    <rect x="31" y="1" width="28" height="54" fill="url(#pGold)" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3 2" />
+    <text x="15" y="33" font-family="'Caveat', cursive" font-size="15" fill="#a16207" text-anchor="middle">k₁</text>
+    <text x="45" y="33" font-family="'Caveat', cursive" font-size="17" font-weight="700" fill="#713f12" text-anchor="middle">k₂</text>
+    <text x="75" y="33" font-family="'Caveat', cursive" font-size="15" fill="#a16207" text-anchor="middle">k₃</text>
+  </g>
+
+  <!-- 2. Q (3×2) Aligned LEFT of the Score Grid -->
+  <g class="matrix-group" transform="translate(46, 172)">
+    <text x="28" y="-10" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600" fill="#1d4ed8" text-anchor="middle">Q <tspan font-family="'Caveat', cursive" font-size="15">(N×d)</tspan></text>
+
+    <!-- Outer box: 56 wide x 90 high -->
+    <rect x="0" y="0" width="56" height="90" rx="4" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8" filter="url(#roughPencil)" />
+    <line x1="28" y1="0" x2="28" y2="90" stroke="#bfdbfe" stroke-width="1.2" />
+    <line x1="0" y1="30" x2="56" y2="30" stroke="#bfdbfe" stroke-width="1.2" />
+    <line x1="0" y1="60" x2="56" y2="60" stroke="#bfdbfe" stroke-width="1.2" />
+
+    <!-- Highlight row i=2 -->
+    <rect x="1" y="31" width="54" height="28" fill="url(#pBlue)" stroke="#1d4ed8" stroke-width="1.6" stroke-dasharray="3 2" />
+    <text x="28" y="20" font-family="'Caveat', cursive" font-size="15" fill="#60a5fa" text-anchor="middle">q₁</text>
+    <text x="28" y="50" font-family="'Caveat', cursive" font-size="17" font-weight="700" fill="#1e3a8a" text-anchor="middle">qᵢ</text>
+    <text x="28" y="80" font-family="'Caveat', cursive" font-size="15" fill="#60a5fa" text-anchor="middle">q₃</text>
+
+    <text x="28" y="110" font-family="'Caveat', cursive" font-size="14" fill="#475569" text-anchor="middle">query token i</text>
+  </g>
+
+  <!-- Sight-lines from Q and Kᵀ into S -->
+  <line x1="104" y1="217" x2="148" y2="217" stroke="#1d4ed8" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowGray)" />
+  <line x1="199" y1="140" x2="199" y2="166" stroke="#a16207" stroke-width="1.5" stroke-dasharray="3 2" marker-end="url(#arrowGray)" />
+
+  <!-- 3. S = Q·Kᵀ/√d (3×3) at (154, 172) -->
+  <g class="matrix-group" transform="translate(154, 172)">
+    <rect x="0" y="0" width="90" height="90" rx="4" fill="#f8fafc" stroke="#475569" stroke-width="1.8" filter="url(#roughPencil)" />
+    <line x1="30" y1="0" x2="30" y2="90" stroke="#cbd5e1" stroke-width="1.2" />
+    <line x1="60" y1="0" x2="60" y2="90" stroke="#cbd5e1" stroke-width="1.2" />
+    <line x1="0" y1="30" x2="90" y2="30" stroke="#cbd5e1" stroke-width="1.2" />
+    <line x1="0" y1="60" x2="90" y2="60" stroke="#cbd5e1" stroke-width="1.2" />
+
+    <!-- Highlight row i scores -->
+    <rect x="1" y="31" width="88" height="28" fill="#f1f5f9" stroke="#64748b" stroke-width="1.4" stroke-dasharray="3 2" />
+    <rect x="31" y="31" width="28" height="28" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.8" />
+
+    <text x="15" y="49" font-family="'JetBrains Mono', monospace" font-size="10" fill="#475569" text-anchor="middle">sᵢ₁</text>
+    <text x="45" y="49" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#5b21b6" text-anchor="middle">sᵢ₂</text>
+    <text x="75" y="49" font-family="'JetBrains Mono', monospace" font-size="10" fill="#475569" text-anchor="middle">sᵢ₃</text>
+
+    <text x="45" y="110" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#334155" text-anchor="middle">Scores (N×N)</text>
+    <text x="45" y="127" font-family="'Caveat', cursive" font-size="15" fill="#64748b" text-anchor="middle">sᵢⱼ = qᵢ·kⱼ / √d</text>
+  </g>
+
+  <!-- 4. Row-wise Softmax Arrow to Matrix A -->
+  <g transform="translate(254, 200)">
+    <path d="M 4 17 C 28 2, 54 2, 78 17" stroke="#6d28d9" stroke-width="2" fill="none" marker-end="url(#arrowPurple)" filter="url(#roughPencil)" />
+    <text x="41" y="0" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#5b21b6" text-anchor="middle">Softmax</text>
+    <text x="41" y="35" font-family="'Caveat', cursive" font-size="14" fill="#7c3aed" text-anchor="middle">per row</text>
+  </g>
+
+  <!-- 5. Matrix A (3×3) at (342, 172) -->
+  <g class="matrix-group" transform="translate(342, 172)">
+    <text x="45" y="-10" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#7e22ce" text-anchor="middle">A <tspan font-family="'Caveat', cursive" font-size="15">(N×N)</tspan></text>
+
+    <rect x="0" y="0" width="90" height="90" rx="4" fill="#faf5ff" stroke="#9333ea" stroke-width="1.8" filter="url(#roughPencil)" />
+
+    <!-- Heatmap shading -->
+    <rect x="1" y="31" width="29" height="28" fill="#f3e8ff" />
+    <rect x="30" y="31" width="30" height="28" fill="#c084fc" />
+    <rect x="60" y="31" width="29" height="28" fill="#faf5ff" />
+
+    <line x1="30" y1="0" x2="30" y2="90" stroke="#d8b4fe" stroke-width="1.2" />
+    <line x1="60" y1="0" x2="60" y2="90" stroke="#d8b4fe" stroke-width="1.2" />
+    <line x1="0" y1="30" x2="90" y2="30" stroke="#d8b4fe" stroke-width="1.2" />
+    <line x1="0" y1="60" x2="90" y2="60" stroke="#d8b4fe" stroke-width="1.2" />
+
+    <!-- Highlighted Row i -->
+    <rect x="1" y="31" width="88" height="28" fill="url(#pPurple)" stroke="#6d28d9" stroke-width="2" />
+    <text x="15" y="49" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="#581c87" text-anchor="middle">aᵢ₁</text>
+    <text x="45" y="49" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#3b0764" text-anchor="middle">aᵢ₂</text>
+    <text x="75" y="49" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" fill="#581c87" text-anchor="middle">aᵢ₃</text>
+
+    <text x="45" y="110" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#6d28d9" text-anchor="middle">Weights A</text>
+    <text x="45" y="127" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#7e22ce" text-anchor="middle">Σⱼ aᵢⱼ = 1.0</text>
+  </g>
+
+  <!-- Bottom Callout Box in Stage 1: Probability Distribution Bar for Row i -->
+  <g transform="translate(36, 332)">
+    <rect x="0" y="0" width="420" height="84" rx="6" fill="#fcfaff" stroke="#c4b5fd" stroke-width="1.5" filter="url(#roughPencil)" />
+    <text x="18" y="25" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#5b21b6">
+      Row i of A forms a probability distribution over tokens:
+    </text>
+    <text x="18" y="58" font-family="'JetBrains Mono', monospace" font-size="11" fill="#6d28d9">aᵢ₁ = 0.20</text>
+    <rect x="92" y="47" width="24" height="14" rx="2" fill="#ddd6fe" stroke="#7c3aed" stroke-width="1.2" />
+
+    <text x="142" y="58" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#4c1d95">aᵢ₂ = 0.70</text>
+    <rect x="216" y="45" width="58" height="16" rx="2" fill="#a855f7" stroke="#581c87" stroke-width="1.4" />
+
+    <text x="298" y="58" font-family="'JetBrains Mono', monospace" font-size="11" fill="#6d28d9">aᵢ₃ = 0.10</text>
+    <rect x="372" y="48" width="16" height="12" rx="2" fill="#ede9fe" stroke="#7c3aed" stroke-width="1.2" />
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- SPACIOUS GAP & CENTER VERTICAL NOTEBOOK DIVIDER (x = 535)    -->
+  <!-- ============================================================ -->
+  <line x1="535" y1="20" x2="535" y2="420" stroke="#cbd5e1" stroke-width="2" stroke-dasharray="8 6" filter="url(#roughPencil)" />
+
+  <!-- Curved hand-drawn connector carrying row i [a_i1, a_i2, a_i3] across the gap -->
+  <g>
+    <path d="M 436 217 C 505 217, 540 128, 608 128" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="5 3" fill="none" marker-end="url(#arrowPurple)" />
+    <rect x="492" y="148" width="86" height="24" rx="4" fill="#faf8f5" stroke="#d8b4fe" stroke-width="1.2" />
+    <text x="535" y="165" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#6d28d9" text-anchor="middle">pass row aᵢ</text>
+  </g>
+
+  <!-- ============================================================ -->
+  <!-- STAGE 2 HEADER & ELEMENTS (RIGHT SIDE: x = 610 .. 1130)      -->
+  <!-- ============================================================ -->
+  <g transform="translate(610, 24)">
+    <rect x="0" y="0" width="96" height="28" rx="5" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5" filter="url(#roughPencil)" />
+    <text x="48" y="19" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#9a3412" text-anchor="middle">STAGE II</text>
+    <text x="108" y="20" font-family="'Caveat', cursive" font-size="22" font-weight="700" fill="#1e293b">
+      What to Gather: Weighted Sum of Value Rows (A · V)
+    </text>
+  </g>
+
+  <!-- 6. Matrix V (3×2) Decomposed into 3 Row Vectors v₁, v₂, v₃ Weighted by aᵢ₁, aᵢ₂, aᵢ₃ -->
+  <g transform="translate(616, 88)">
+    <text x="0" y="-8" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#475569">
+      Row i of A scales each row vector of V (N×d):
+    </text>
+
+    <!-- Term 1: a_i1 * v_1 -->
+    <g transform="translate(0, 14)">
+      <rect x="4" y="4" width="42" height="30" rx="4" fill="#f3e8ff" stroke="#7c3aed" stroke-width="1.5" filter="url(#roughPencil)" />
+      <text x="25" y="23" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#5b21b6" text-anchor="middle">aᵢ₁</text>
+
+      <text x="58" y="25" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#64748b" text-anchor="middle">·</text>
+
+      <!-- v1 row vector (1×d = 1×2) -->
+      <rect x="72" y="4" width="88" height="30" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.6" filter="url(#roughPencil)" />
+      <line x1="116" y1="4" x2="116" y2="34" stroke="#bbf7d0" stroke-width="1.2" />
+      <text x="116" y="24" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#15803d" text-anchor="middle">v₁</text>
+      <text x="170" y="24" font-family="'Caveat', cursive" font-size="15" fill="#64748b">row 1 of V</text>
+    </g>
+
+    <!-- Plus sign -->
+    <text x="116" y="65" font-family="'Caveat', cursive" font-size="22" font-weight="700" fill="#64748b" text-anchor="middle">+</text>
+
+    <!-- Term 2: a_i2 * v_2 (Dominant weight!) -->
+    <g transform="translate(0, 74)">
+      <rect x="4" y="4" width="42" height="30" rx="4" fill="#c084fc" stroke="#581c87" stroke-width="2" filter="url(#roughPencil)" />
+      <text x="25" y="24" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#3b0764" text-anchor="middle">aᵢ₂</text>
+
+      <text x="58" y="25" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#64748b" text-anchor="middle">·</text>
+
+      <!-- v2 row vector (strongly shaded) -->
+      <rect x="72" y="4" width="88" height="30" rx="4" fill="#dcfce7" stroke="#15803d" stroke-width="2" filter="url(#roughPencil)" />
+      <rect x="72" y="4" width="88" height="30" fill="url(#pGreenStrong)" />
+      <line x1="116" y1="4" x2="116" y2="34" stroke="#86efac" stroke-width="1.2" />
+      <text x="116" y="24" font-family="'Caveat', cursive" font-size="19" font-weight="700" fill="#14532d" text-anchor="middle">v₂</text>
+      <text x="170" y="24" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#15803d">row 2 (dominant)</text>
+    </g>
+
+    <!-- Plus sign -->
+    <text x="116" y="125" font-family="'Caveat', cursive" font-size="22" font-weight="700" fill="#64748b" text-anchor="middle">+</text>
+
+    <!-- Term 3: a_i3 * v_3 -->
+    <g transform="translate(0, 134)">
+      <rect x="4" y="4" width="42" height="30" rx="4" fill="#faf5ff" stroke="#9333ea" stroke-width="1.5" filter="url(#roughPencil)" />
+      <text x="25" y="23" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#6b21a8" text-anchor="middle">aᵢ₃</text>
+
+      <text x="58" y="25" font-family="'Inter', sans-serif" font-size="16" font-weight="600" fill="#64748b" text-anchor="middle">·</text>
+
+      <!-- v3 row vector -->
+      <rect x="72" y="4" width="88" height="30" rx="4" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.6" filter="url(#roughPencil)" />
+      <line x1="116" y1="4" x2="116" y2="34" stroke="#bbf7d0" stroke-width="1.2" />
+      <text x="116" y="24" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#15803d" text-anchor="middle">v₃</text>
+      <text x="170" y="24" font-family="'Caveat', cursive" font-size="15" fill="#64748b">row 3 of V</text>
+    </g>
+
+    <!-- Curly brace gathering the 3 weighted rows into z_i -->
+    <path d="M 284 22 Q 298 22 298 56 Q 298 90 312 90 Q 298 90 298 124 Q 298 158 284 158" stroke="#c2410c" stroke-width="1.8" fill="none" stroke-linecap="round" filter="url(#roughPencil)" />
+    <line x1="318" y1="90" x2="366" y2="118" stroke="#c2410c" stroke-width="2" marker-end="url(#arrowOrange)" />
+  </g>
+
+  <!-- 7. Full Output Matrix Z (N×d = 3×2) on the Far Right -->
+  <g class="matrix-group" transform="translate(996, 166)">
+    <text x="44" y="-10" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" fill="#c2410c" text-anchor="middle">Z = A·V</text>
+
+    <!-- Outer Box: 88 wide x 96 high -->
+    <rect x="0" y="0" width="88" height="96" rx="4" fill="#fff7ed" stroke="#ea580c" stroke-width="2.2" filter="url(#roughPencil)" />
+    <line x1="44" y1="0" x2="44" y2="96" stroke="#fed7aa" stroke-width="1.3" />
+    <line x1="0" y1="32" x2="88" y2="32" stroke="#fed7aa" stroke-width="1.3" />
+    <line x1="0" y1="64" x2="88" y2="64" stroke="#fed7aa" stroke-width="1.3" />
+
+    <!-- Row 1 & 3 labels -->
+    <text x="44" y="21" font-family="'Caveat', cursive" font-size="15" fill="#fb923c" text-anchor="middle">z₁</text>
+    <text x="44" y="85" font-family="'Caveat', cursive" font-size="15" fill="#fb923c" text-anchor="middle">z₃</text>
+
+    <!-- Highlighted Output Row z_i -->
+    <rect x="1" y="33" width="86" height="30" fill="#ffedd5" />
+    <rect x="1" y="33" width="86" height="30" fill="url(#pOrange)" stroke="#c2410c" stroke-width="2" />
+    <text x="44" y="54" font-family="'Caveat', cursive" font-size="19" font-weight="700" fill="#9a3412" text-anchor="middle">zᵢ</text>
+
+    <text x="44" y="116" font-family="'Caveat', cursive" font-size="16" fill="#475569" text-anchor="middle">Output (N×d)</text>
+    <text x="44" y="134" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#c2410c" text-anchor="middle">zᵢ = Σⱼ aᵢⱼ · vⱼ</text>
+  </g>
+
+  <!-- Bottom Callout Box in Stage 2: Intuition Summary -->
+  <g transform="translate(616, 332)">
+    <rect x="0" y="0" width="496" height="84" rx="6" fill="#fffaf5" stroke="#fdba74" stroke-width="1.5" filter="url(#roughPencil)" />
+    <text x="18" y="25" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#9a3412">
+      Key Intuition — Why Attention is a "Soft Lookup":
+    </text>
+    <text x="18" y="49" font-family="'Caveat', cursive" font-size="16" fill="#475569">
+      Each output row <tspan font-weight="700" fill="#c2410c">zᵢ</tspan> is a weighted blend of value rows <tspan font-weight="700" fill="#15803d">v₁, v₂, v₃</tspan>,
+    </text>
+    <text x="18" y="70" font-family="'Caveat', cursive" font-size="16" fill="#475569">
+      tilted toward whichever tokens had high query-key similarity (<tspan font-weight="700" fill="#1d4ed8">qᵢ</tspan> · <tspan font-weight="700" fill="#854d0e">kⱼ</tspan>).
+    </text>
+  </g>
+</svg>
+

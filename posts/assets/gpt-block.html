@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Anatomy of a Classic GPT (MHA) Block — Sketch Diagram</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>✎</text></svg>">
+  <style>
+    :root {
+      --bg-paper: #faf8f5;
+      --bg-card: #ffffff;
+      --ink: #1f2429;
+      --ink-pencil: #525c66;
+      --ink-faint: #8c97a4;
+      --border-sketch: #2c3238;
+      --font-sketch: 'Caveat', cursive;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-sans: 'Inter', -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--bg-paper);
+      background-image: radial-gradient(rgba(40, 50, 60, 0.08) 1px, transparent 1px);
+      background-size: 24px 24px;
+      color: var(--ink);
+      font-family: var(--font-sans);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .nav-bar {
+      width: 100%;
+      max-width: 1200px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .nav-bar a {
+      color: var(--ink-pencil);
+      text-decoration: none;
+      font-family: var(--font-sketch);
+      font-size: 1.25rem;
+      font-weight: 600;
+      transition: color 0.15s;
+    }
+    .nav-bar a:hover { color: #000; }
+
+    .sketch-card {
+      width: 100%;
+      max-width: 1200px;
+      background: var(--bg-card);
+      border: 2px solid var(--border-sketch);
+      border-radius: 8px 16px 6px 14px / 14px 6px 16px 8px;
+      box-shadow: 
+        4px 5px 0px rgba(30, 35, 42, 0.12),
+        10px 20px 35px rgba(0, 0, 0, 0.04);
+      padding: 36px 32px 32px;
+      position: relative;
+    }
+
+    .header-area {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .header-title {
+      font-family: var(--font-mono);
+      font-size: 1.25rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: var(--ink);
+    }
+
+    .header-subtitle {
+      font-family: var(--font-sketch);
+      font-size: 1.3rem;
+      color: var(--ink-pencil);
+      margin-top: 4px;
+    }
+
+    .svg-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 6px 0;
+    }
+
+    svg.sketch-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-width: 1080px;
+      user-select: none;
+    }
+
+    .matrix-group {
+      transition: transform 0.15s ease, filter 0.15s ease;
+      cursor: default;
+    }
+    .matrix-group:hover {
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.08));
+    }
+
+    html.in-iframe body {
+      background: transparent;
+      min-height: 0;
+      padding: 2px 6px 12px 2px;
+    }
+    html.in-iframe .nav-bar {
+      display: none;
+    }
+  </style>
+  <script>
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('in-iframe');
+    }
+  </script>
+</head>
+<body>
+
+  <header class="nav-bar">
+    <a href="../the-race-to-optimize-the-transformer.html">
+      ← Back to article
+    </a>
+  </header>
+
+  <main class="sketch-card">
+    <header class="header-area">
+      <h1 class="header-title">Anatomy of a GPT-2 / GPT-3 Block</h1>
+      <p class="header-subtitle">Left: Learned position embeddings + L stacked blocks · Right: 2-matrix GELU MLP (4d expansion) &amp; 1:1 Multi-Head Attention (H_q = H_k = H_v)</p>
+    </header>
+
+    <div class="svg-scroll-container">
+      <svg class="sketch-svg" viewBox="0 0 1200 740" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <!-- Organic pencil stroke filter -->
+          <filter id="roughPencil" x="-4%" y="-4%" width="108%" height="108%">
+            <feTurbulence type="fractalNoise" baseFrequency="0.035" numOctaves="3" result="noise" seed="12" />
+            <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.2" xChannelSelector="R" yChannelSelector="G" />
+          </filter>
+
+          <!-- Pencil Hatching Patterns -->
+          <pattern id="pBlue" width="5" height="5" patternTransform="rotate(40 0 0)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="#1d4ed8" stroke-width="1.2" stroke-opacity="0.3" />
+          </pattern>
+          <pattern id="pGold" width="5" height="5" patternTransform="rotate(-40 0 0)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="#a16207" stroke-width="1.2" stroke-opacity="0.35" />
+          </pattern>
+          <pattern id="pPurple" width="4" height="4" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="4" stroke="#6d28d9" stroke-width="1.4" stroke-opacity="0.38" />
+          </pattern>
+          <pattern id="pGreenStrong" width="4" height="4" patternTransform="rotate(35 0 0)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="4" stroke="#15803d" stroke-width="1.5" stroke-opacity="0.45" />
+          </pattern>
+          <pattern id="pOrange" width="5" height="5" patternTransform="rotate(-35 0 0)" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="0" y2="5" stroke="#c2410c" stroke-width="1.4" stroke-opacity="0.4" />
+          </pattern>
+
+          <!-- Arrowheads -->
+          <marker id="gptArrowDark" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#334155" />
+          </marker>
+          <marker id="gptArrowPurple" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#6d28d9" />
+          </marker>
+          <marker id="gptArrowOrange" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#c2410c" />
+          </marker>
+          <marker id="gptArrowGreen" viewBox="0 0 12 12" refX="9" refY="6" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M 1 2 L 10 6 L 1 10 L 3.5 6 Z" fill="#15803d" />
+          </marker>
+        </defs>
+
+        <!-- ============================================================ -->
+        <!-- LEFT COLUMN: FULL GPT-2 / GPT-3 STACK (BOTTOM-TO-TOP)        -->
+        <!-- Center axis x = 230; Block spans x = 44 .. 434 (width 390)   -->
+        <!-- ============================================================ -->
+        <g transform="translate(44, 18)">
+          <rect x="0" y="0" width="132" height="28" rx="5" fill="#f1f5f9" stroke="#475569" stroke-width="1.5" filter="url(#roughPencil)" />
+          <text x="66" y="19" font-family="'Caveat', cursive" font-size="18" font-weight="700" fill="#1e293b" text-anchor="middle">MACRO VIEW</text>
+          <text x="144" y="20" font-family="'Caveat', cursive" font-size="21" font-weight="700" fill="#1e293b">
+            GPT-2 / GPT-3 Residual Tower
+          </text>
+        </g>
+
+        <!-- 1. Output Head at Top (y = 58 .. 92) -->
+        <g class="matrix-group" transform="translate(120, 58)">
+          <rect x="0" y="0" width="220" height="34" rx="5" fill="#fef2f2" stroke="#dc2626" stroke-width="1.8" filter="url(#roughPencil)" />
+          <text x="110" y="22" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#991b1b" text-anchor="middle">Linear Head (d → Vocab)</text>
+          <text x="230" y="22" font-family="'Caveat', cursive" font-size="15.5" font-weight="700" fill="#b91c1c">→ Logits</text>
+        </g>
+
+        <!-- Arrow from Final LayerNorm to Output Linear -->
+        <line x1="230" y1="114" x2="230" y2="95" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+        <!-- Final LayerNorm (y = 114 .. 144) -->
+        <g class="matrix-group" transform="translate(140, 114)">
+          <rect x="0" y="0" width="180" height="30" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6" filter="url(#roughPencil)" />
+          <text x="90" y="20" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#854d0e" text-anchor="middle">Final LayerNorm</text>
+        </g>
+
+        <!-- Arrow exiting the GPT Block into Final LayerNorm -->
+        <line x1="230" y1="208" x2="230" y2="148" stroke="#334155" stroke-width="2" marker-end="url(#gptArrowDark)" />
+
+        <!-- ============================================================ -->
+        <!-- THE GPT-2 / GPT-3 BLOCK (x = 44..434, y = 168..558)          -->
+        <!-- ============================================================ -->
+        <g>
+          <!-- Stacked shadow card behind main block -->
+          <rect x="52" y="176" width="390" height="390" rx="12" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" filter="url(#roughPencil)" />
+          <!-- Main Block Container -->
+          <rect x="44" y="168" width="390" height="390" rx="12" fill="#fcfbf9" stroke="#334155" stroke-width="2.2" filter="url(#roughPencil)" />
+
+          <!-- × L Badge cleanly docked at top-left -->
+          <rect x="60" y="154" width="110" height="26" rx="5" fill="#1e293b" stroke="#0f172a" stroke-width="1.5" filter="url(#roughPencil)" />
+          <text x="115" y="172" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#ffffff" text-anchor="middle">× L Blocks</text>
+          <text x="342" y="188" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#64748b" text-anchor="middle">(L = 12..96)</text>
+
+          <!-- ========================================================== -->
+          <!-- SUB-LAYER 2 (UPPER): 2-LAYER GELU MLP                      -->
+          <!-- ========================================================== -->
+
+          <!-- Residual Add (+) Circle for MLP at (230, 222) -->
+          <circle cx="230" cy="222" r="14" fill="#fff7ed" stroke="#c2410c" stroke-width="2" filter="url(#roughPencil)" />
+          <text x="230" y="228" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#9a3412" text-anchor="middle">+</text>
+          <text x="252" y="227" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#9a3412">x_out = h + MLP(LN(h))</text>
+
+          <!-- Arrow from GELU MLP to (+) -->
+          <line x1="230" y1="262" x2="230" y2="240" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+          <!-- 2-Layer GELU MLP Box (y = 262 .. 306) -->
+          <g class="matrix-group" transform="translate(120, 262)">
+            <rect x="0" y="0" width="220" height="44" rx="6" fill="#fff7ed" stroke="#ea580c" stroke-width="2" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="220" height="44" rx="6" fill="url(#pOrange)" />
+            <text x="110" y="19" font-family="'JetBrains Mono', monospace" font-size="12.5" font-weight="600" fill="#9a3412" text-anchor="middle">2-Layer GELU MLP</text>
+            <text x="110" y="36" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#c2410c" text-anchor="middle">standard FFN (d → 4d → d)</text>
+          </g>
+
+          <!-- Arrow from Pre-FFN LayerNorm to GELU MLP -->
+          <line x1="230" y1="324" x2="230" y2="308" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+          <!-- Pre-FFN LayerNorm (y = 324 .. 354) -->
+          <g class="matrix-group" transform="translate(140, 324)">
+            <rect x="0" y="0" width="180" height="30" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6" filter="url(#roughPencil)" />
+            <text x="90" y="20" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#854d0e" text-anchor="middle">LayerNorm (Pre-MLP)</text>
+          </g>
+
+          <!-- Residual Bypass Highway around Sub-layer 2 (left path at x = 86) -->
+          <path d="M 230 370 L 86 370 L 86 222 L 211 222" stroke="#c2410c" stroke-width="1.8" stroke-dasharray="5 3" fill="none" marker-end="url(#gptArrowOrange)" />
+          <text x="72" y="296" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#c2410c" text-anchor="middle" transform="rotate(-90 72 296)">residual (+h)</text>
+
+          <!-- Arrow from Sub-layer 1 (+) up to Pre-MLP LayerNorm -->
+          <line x1="230" y1="386" x2="230" y2="356" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+          <circle cx="230" cy="370" r="3.5" fill="#334155" />
+
+          <!-- ========================================================== -->
+          <!-- SUB-LAYER 1 (LOWER): STANDARD MULTI-HEAD ATTENTION         -->
+          <!-- ========================================================== -->
+
+          <!-- Residual Add (+) Circle for Attention at (230, 400) -->
+          <circle cx="230" cy="400" r="14" fill="#faf5ff" stroke="#7c3aed" stroke-width="2" filter="url(#roughPencil)" />
+          <text x="230" y="406" font-family="'JetBrains Mono', monospace" font-size="16" font-weight="700" fill="#5b21b6" text-anchor="middle">+</text>
+          <text x="252" y="405" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#5b21b6">h = x + MHA(LN(x))</text>
+
+          <!-- Arrow from MHA Box to (+) -->
+          <line x1="230" y1="438" x2="230" y2="418" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+          <!-- Standard Multi-Head Attention Box (y = 438 .. 482) -->
+          <g class="matrix-group" transform="translate(120, 438)">
+            <rect x="0" y="0" width="220" height="44" rx="6" fill="#faf5ff" stroke="#7c3aed" stroke-width="2" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="220" height="44" rx="6" fill="url(#pPurple)" />
+            <text x="110" y="19" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#4c1d95" text-anchor="middle">Multi-Head Attention</text>
+            <text x="110" y="36" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#6d28d9" text-anchor="middle">1:1 Q, K, V heads + causal mask</text>
+          </g>
+
+          <!-- Arrow from Pre-Attn LayerNorm to MHA Box -->
+          <line x1="230" y1="500" x2="230" y2="484" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+          <!-- Pre-Attn LayerNorm (y = 500 .. 530) -->
+          <g class="matrix-group" transform="translate(140, 500)">
+            <rect x="0" y="0" width="180" height="30" rx="4" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6" filter="url(#roughPencil)" />
+            <text x="90" y="20" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#854d0e" text-anchor="middle">LayerNorm (Pre-Attn)</text>
+          </g>
+
+          <!-- Residual Bypass Highway around Sub-layer 1 (left path at x = 86) -->
+          <path d="M 230 546 L 86 546 L 86 400 L 211 400" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="5 3" fill="none" marker-end="url(#gptArrowPurple)" />
+          <text x="72" y="474" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#6d28d9" text-anchor="middle" transform="rotate(-90 72 474)">residual (+x)</text>
+
+          <!-- Input x split point inside bottom of block -->
+          <circle cx="230" cy="546" r="3.5" fill="#334155" />
+        </g>
+
+        <!-- ============================================================ -->
+        <!-- BOTTOM INPUT: TOKEN EMBEDDINGS + LEARNED POSITIONAL EMBED    -->
+        <!-- ============================================================ -->
+        <!-- Arrow from Pos Addition (+) up into Pre-Attn LayerNorm -->
+        <line x1="230" y1="584" x2="230" y2="532" stroke="#334155" stroke-width="2" marker-end="url(#gptArrowDark)" />
+        <text x="246" y="576" font-family="'Caveat', cursive" font-size="15.5" font-weight="700" fill="#1d4ed8">x = E_tok + E_pos</text>
+
+        <!-- Addition circle (+) for Token + Position Embeddings at (230, 598) -->
+        <circle cx="230" cy="598" r="13" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8" filter="url(#roughPencil)" />
+        <text x="230" y="604" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700" fill="#1e3a8a" text-anchor="middle">+</text>
+
+        <!-- Left Branch: Token Embeddings (x = 44 .. 204, y = 632 .. 668) -->
+        <g class="matrix-group" transform="translate(44, 632)">
+          <rect x="0" y="0" width="166" height="36" rx="5" fill="#eff6ff" stroke="#2563eb" stroke-width="1.8" filter="url(#roughPencil)" />
+          <rect x="0" y="0" width="166" height="36" rx="5" fill="url(#pBlue)" />
+          <text x="83" y="23" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#1e3a8a" text-anchor="middle">Token Embedding</text>
+        </g>
+        <path d="M 127 632 L 127 598 L 212 598" stroke="#2563eb" stroke-width="1.6" fill="none" marker-end="url(#gptArrowDark)" />
+
+        <!-- Right Branch: Learned Positional Embeddings (x = 250 .. 434, y = 632 .. 668) -->
+        <g class="matrix-group" transform="translate(250, 632)">
+          <rect x="0" y="0" width="184" height="36" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8" filter="url(#roughPencil)" />
+          <text x="92" y="23" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#14532d" text-anchor="middle">Learned Pos Embed</text>
+        </g>
+        <path d="M 342 632 L 342 598 L 248 598" stroke="#16a34a" stroke-width="1.6" fill="none" marker-end="url(#gptArrowGreen)" />
+
+        <!-- Bottom caption -->
+        <text x="239" y="694" font-family="'Caveat', cursive" font-size="16.5" font-weight="700" fill="#475569" text-anchor="middle">
+          Token IDs + Learned Position Embeddings (0..N−1) added once at the input
+        </text>
+
+        <!-- ============================================================ -->
+        <!-- DASHED ZOOM-IN CALLOUT LINES (LEFT STACK → RIGHT PANELS)     -->
+        <!-- ============================================================ -->
+        <path d="M 340 284 C 425 284, 455 155, 526 155" stroke="#ea580c" stroke-width="1.8" stroke-dasharray="6 4" fill="none" marker-end="url(#gptArrowOrange)" />
+        <path d="M 340 460 C 425 460, 455 474, 526 474" stroke="#7c3aed" stroke-width="1.8" stroke-dasharray="6 4" fill="none" marker-end="url(#gptArrowPurple)" />
+
+        <!-- ============================================================ -->
+        <!-- RIGHT TOP PANEL: INSIDE 2-LAYER GELU MLP                     -->
+        <!-- x = 532 .. 1176 (width = 644), y = 24 .. 320 (height = 296)  -->
+        <!-- ============================================================ -->
+        <g transform="translate(532, 24)">
+          <rect x="0" y="0" width="644" height="296" rx="10" fill="#fffaf5" stroke="#ea580c" stroke-width="1.8" filter="url(#roughPencil)" />
+
+          <!-- Header Badge & Concise Title (well within 644px) -->
+          <rect x="18" y="14" width="148" height="26" rx="5" fill="#ffedd5" stroke="#c2410c" stroke-width="1.4" filter="url(#roughPencil)" />
+          <text x="92" y="32" font-family="'Caveat', cursive" font-size="17" font-weight="700" fill="#9a3412" text-anchor="middle">ZOOM: GELU MLP</text>
+          <text x="178" y="33" font-family="'Caveat', cursive" font-size="20" font-weight="700" fill="#1e293b">
+            Channel Mixing — Classic 2-Matrix Non-Gated FFN
+          </text>
+
+          <!-- Sequential Single-Branch Pipeline Centered Vertically at y = 122 -->
+          <!-- 1. LN(h) -->
+          <g transform="translate(24, 102)">
+            <rect x="0" y="0" width="90" height="44" rx="5" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6" filter="url(#roughPencil)" />
+            <text x="45" y="19" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#854d0e" text-anchor="middle">LN(h)</text>
+            <text x="45" y="36" font-family="'Caveat', cursive" font-size="14" fill="#a16207" text-anchor="middle">(N × d)</text>
+          </g>
+
+          <line x1="114" y1="124" x2="148" y2="124" stroke="#334155" stroke-width="1.8" marker-end="url(#gptArrowDark)" />
+
+          <!-- 2. Linear W_fc (expand d -> 4d) -->
+          <g transform="translate(152, 98)">
+            <rect x="0" y="0" width="144" height="52" rx="5" fill="#fff7ed" stroke="#ea580c" stroke-width="1.8" filter="url(#roughPencil)" />
+            <text x="72" y="21" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#9a3412" text-anchor="middle">Linear W_fc</text>
+            <text x="72" y="40" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#c2410c" text-anchor="middle">expand d → 4d</text>
+          </g>
+
+          <line x1="296" y1="124" x2="330" y2="124" stroke="#ea580c" stroke-width="1.8" marker-end="url(#gptArrowOrange)" />
+
+          <!-- 3. GELU Activation -->
+          <g transform="translate(334, 102)">
+            <rect x="0" y="0" width="96" height="44" rx="18" fill="#ffedd5" stroke="#c2410c" stroke-width="1.8" filter="url(#roughPencil)" />
+            <text x="48" y="19" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" fill="#9a3412" text-anchor="middle">GELU</text>
+            <text x="48" y="36" font-family="'Caveat', cursive" font-size="13.5" fill="#c2410c" text-anchor="middle">x · Φ(x)</text>
+          </g>
+
+          <line x1="430" y1="124" x2="464" y2="124" stroke="#ea580c" stroke-width="1.8" marker-end="url(#gptArrowOrange)" />
+
+          <!-- 4. Linear W_proj (contract 4d -> d) -->
+          <g transform="translate(468, 98)">
+            <rect x="0" y="0" width="148" height="52" rx="5" fill="#fff7ed" stroke="#ea580c" stroke-width="1.8" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="148" height="52" rx="5" fill="url(#pOrange)" />
+            <text x="74" y="21" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600" fill="#9a3412" text-anchor="middle">Linear W_proj</text>
+            <text x="74" y="40" font-family="'Caveat', cursive" font-size="15" font-weight="700" fill="#c2410c" text-anchor="middle">project 4d → d</text>
+          </g>
+
+          <!-- Formula & Spec Note at Bottom of MLP Panel (600×72 box) -->
+          <rect x="22" y="204" width="600" height="74" rx="5" fill="#ffffff" stroke="#fed7aa" stroke-width="1.3" />
+          <text x="36" y="226" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#9a3412">
+            MLP(x) = GELU( x · W_fc + b₁ ) · W_proj + b₂
+          </text>
+          <text x="36" y="248" font-family="'Caveat', cursive" font-size="15.5" fill="#475569">
+            Expands each token's features <tspan font-weight="700" fill="#c2410c">4× wider</tspan> (e.g. d = 768 → 3072 in GPT-2; 12,288 → 49,152 in GPT-3)
+          </text>
+          <text x="36" y="268" font-family="'Caveat', cursive" font-size="15.5" fill="#475569">
+            to apply non-linear channel transformations independently at every sequence position.
+          </text>
+        </g>
+
+        <!-- ============================================================ -->
+        <!-- RIGHT BOTTOM PANEL: INSIDE STANDARD MULTI-HEAD ATTENTION     -->
+        <!-- x = 532 .. 1176 (width = 644), y = 344 .. 704 (height = 360) -->
+        <!-- ============================================================ -->
+        <g transform="translate(532, 344)">
+          <rect x="0" y="0" width="644" height="360" rx="10" fill="#fcfaff" stroke="#7c3aed" stroke-width="1.8" filter="url(#roughPencil)" />
+
+          <!-- Header Badge & Concise Title (well within 644px) -->
+          <rect x="18" y="14" width="148" height="26" rx="5" fill="#ede9fe" stroke="#6d28d9" stroke-width="1.4" filter="url(#roughPencil)" />
+          <text x="92" y="32" font-family="'Caveat', cursive" font-size="17" font-weight="700" fill="#5b21b6" text-anchor="middle">ZOOM: Standard MHA</text>
+          <text x="178" y="33" font-family="'Caveat', cursive" font-size="20" font-weight="700" fill="#1e293b">
+            Token Mixing — Every Query Head Has Dedicated K &amp; V Heads
+          </text>
+
+          <!-- Input Node: LN(x) -->
+          <g transform="translate(22, 128)">
+            <rect x="0" y="0" width="88" height="40" rx="5" fill="#fefce8" stroke="#ca8a04" stroke-width="1.6" filter="url(#roughPencil)" />
+            <text x="44" y="18" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#854d0e" text-anchor="middle">LN(x)</text>
+            <text x="44" y="33" font-family="'Caveat', cursive" font-size="14" fill="#a16207" text-anchor="middle">(N × d)</text>
+          </g>
+
+          <!-- 3-Way Branch to W_Q, W_K, W_V -->
+          <path d="M 110 148 L 132 148 L 132 82 L 156 82" stroke="#1d4ed8" stroke-width="1.5" fill="none" marker-end="url(#gptArrowDark)" />
+          <path d="M 110 148 L 156 148" stroke="#a16207" stroke-width="1.5" fill="none" marker-end="url(#gptArrowDark)" />
+          <path d="M 110 148 L 132 148 L 132 214 L 156 214" stroke="#15803d" stroke-width="1.5" fill="none" marker-end="url(#gptArrowDark)" />
+
+          <!-- W_Q Box (H Query Heads) -->
+          <g transform="translate(160, 60)">
+            <rect x="0" y="0" width="144" height="44" rx="5" fill="#eff6ff" stroke="#2563eb" stroke-width="1.6" filter="url(#roughPencil)" />
+            <text x="72" y="18" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#1e3a8a" text-anchor="middle">Q = x · W_Q</text>
+            <text x="72" y="35" font-family="'Caveat', cursive" font-size="14.5" font-weight="700" fill="#1d4ed8" text-anchor="middle">H Query Heads</text>
+          </g>
+
+          <!-- W_K Box (H Dedicated Key Heads!) -->
+          <g transform="translate(160, 126)">
+            <rect x="0" y="0" width="144" height="44" rx="5" fill="#fefce8" stroke="#ca8a04" stroke-width="1.8" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="144" height="44" rx="5" fill="url(#pGold)" />
+            <text x="72" y="18" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#713f12" text-anchor="middle">K = x · W_K</text>
+            <text x="72" y="35" font-family="'Caveat', cursive" font-size="14.5" font-weight="700" fill="#854d0e" text-anchor="middle">H Key Heads (1:1)</text>
+          </g>
+
+          <!-- W_V Box (H Dedicated Value Heads!) -->
+          <g transform="translate(160, 192)">
+            <rect x="0" y="0" width="144" height="44" rx="5" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.8" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="144" height="44" rx="5" fill="url(#pGreenStrong)" />
+            <text x="72" y="18" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="600" fill="#14532d" text-anchor="middle">V = x · W_V</text>
+            <text x="72" y="35" font-family="'Caveat', cursive" font-size="14.5" font-weight="700" fill="#14532d" text-anchor="middle">H Value Heads (1:1)</text>
+          </g>
+
+          <!-- 1:1 Head Split Badge (contrasting with GQA + RoPE) -->
+          <line x1="304" y1="82" x2="324" y2="114" stroke="#1d4ed8" stroke-width="1.5" marker-end="url(#gptArrowPurple)" />
+          <line x1="304" y1="148" x2="324" y2="148" stroke="#a16207" stroke-width="1.5" marker-end="url(#gptArrowPurple)" />
+          <line x1="304" y1="214" x2="324" y2="182" stroke="#15803d" stroke-width="1.5" marker-end="url(#gptArrowGreen)" />
+
+          <!-- Parallel H Heads Attention Box (x = 328 .. 496) -->
+          <g transform="translate(328, 86)">
+            <!-- Stacked head cards behind to illustrate H independent heads -->
+            <rect x="8" y="-8" width="164" height="116" rx="6" fill="#f3e8ff" stroke="#c084fc" stroke-width="1.3" filter="url(#roughPencil)" />
+            <rect x="4" y="-4" width="164" height="116" rx="6" fill="#f5f3ff" stroke="#a855f7" stroke-width="1.4" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="164" height="116" rx="6" fill="#faf5ff" stroke="#7c3aed" stroke-width="2" filter="url(#roughPencil)" />
+            <rect x="0" y="0" width="164" height="116" rx="6" fill="url(#pPurple)" />
+
+            <text x="82" y="24" font-family="'Caveat', cursive" font-size="16" font-weight="700" fill="#5b21b6" text-anchor="middle">For each head h = 1..H:</text>
+            <text x="82" y="48" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#4c1d95" text-anchor="middle">Softmax</text>
+            <text x="82" y="66" font-family="'JetBrains Mono', monospace" font-size="10.5" font-weight="600" fill="#5b21b6" text-anchor="middle">(Qₕ·Kₕᵀ / √dₖ + M)</text>
+            <text x="82" y="84" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" fill="#4c1d95" text-anchor="middle">· Vₕ</text>
+            <text x="82" y="104" font-family="'Caveat', cursive" font-size="14" font-weight="700" fill="#6d28d9" text-anchor="middle">dₖ = d / H per head</text>
+          </g>
+
+          <!-- Arrow to Output Projection W_O -->
+          <line x1="500" y1="148" x2="528" y2="148" stroke="#334155" stroke-width="1.6" marker-end="url(#gptArrowDark)" />
+
+          <!-- Output Projection W_O -->
+          <g transform="translate(532, 118)">
+            <rect x="0" y="0" width="88" height="60" rx="5" fill="#f8fafc" stroke="#475569" stroke-width="1.8" filter="url(#roughPencil)" />
+            <text x="44" y="25" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600" fill="#1e293b" text-anchor="middle">Concat</text>
+            <text x="44" y="43" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="700" fill="#334155" text-anchor="middle">· W_O</text>
+          </g>
+
+          <!-- Bottom Callout inside MHA Panel (wrapped across 2 lines inside 600×78 box) -->
+          <rect x="22" y="262" width="600" height="78" rx="5" fill="#ffffff" stroke="#d8b4fe" stroke-width="1.3" />
+          <text x="36" y="284" font-family="'Caveat', cursive" font-size="17" font-weight="700" fill="#5b21b6">
+            Why Multi-Head Attention (MHA) — and Its KV-Cache Footprint:
+          </text>
+          <text x="36" y="306" font-family="'Caveat', cursive" font-size="15.5" fill="#475569">
+            Splitting d into H parallel heads lets the model attend to H subspaces at once,
+          </text>
+          <text x="36" y="326" font-family="'Caveat', cursive" font-size="15.5" fill="#475569">
+            but every head caches its own separate Key &amp; Value tensors (<tspan font-weight="700" fill="#6d28d9">H_q = H_k = H_v</tspan>) during decoding.
+          </text>
+        </g>
+
+      </svg>
+    </div>
+  </main>
+
+</body>
+</html>

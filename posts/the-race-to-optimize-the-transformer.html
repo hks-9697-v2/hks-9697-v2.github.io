@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The race to optimize the transformer. — Harsh Shah</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=JetBrains+Mono:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css?v=4">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>♞</text></svg>">
+  <style>
+    .sketch-card {
+      width: 100%;
+      background: #ffffff;
+      border: 2px solid #2c3238;
+      border-radius: 8px 16px 6px 14px / 14px 6px 16px 8px;
+      box-shadow:
+        4px 5px 0px rgba(30, 35, 42, 0.12),
+        10px 20px 35px rgba(0, 0, 0, 0.04);
+      padding: 28px 24px 24px;
+      margin-top: 32px;
+      position: relative;
+    }
+
+    .sketch-card .header-area {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .sketch-card .header-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.15rem;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+      color: #1f2429;
+      margin: 0;
+    }
+
+    .sketch-card .header-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: 1.25rem;
+      color: #525c66;
+      margin-top: 4px;
+      margin-bottom: 0;
+    }
+
+    .svg-scroll-container {
+      width: 100%;
+      overflow-x: auto;
+      padding: 6px 0;
+    }
+
+    .sketch-svg {
+      display: block;
+      width: 100%;
+      height: auto;
+      min-width: 980px;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="nav-container">
+      <a href="../index.html" class="site-title">Harsh Shah</a>
+      <nav>
+        <ul class="site-nav">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="https://github.com/hks-9697-v2" target="_blank" rel="noopener">GitHub ↗</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page-wrapper" style="max-width: 1120px;">
+    <article>
+      <div style="font-family: var(--font-sans); font-size: 0.88rem; color: var(--text-light); margin-bottom: 12px;">
+        <a href="../index.html" style="text-decoration: none;">← Back to Home</a>
+      </div>
+
+      <h1>The race to optimize the transformer.</h1>
+      
+      <p style="color: var(--text-muted); font-style: italic; margin-top: 24px;">
+        Coming soon...
+      </p>
+
+      <!-- 1. Scaled Dot-Product Attention Diagram -->
+      <section class="sketch-card">
+        <header class="header-area">
+          <h2 class="header-title">Attention(Q, K, V) = Softmax( Q · Kᵀ / √d ) · V</h2>
+          <p class="header-subtitle">Stage I: Score &amp; Normalize (Where to attend) → Stage II: Weighted Sum of Value Rows (What to gather)</p>
+        </header>
+        <div class="svg-scroll-container">
+          <object class="sketch-svg" type="image/svg+xml" data="./assets/attention.svg" aria-label="The Attention Mechanism Diagram"></object>
+        </div>
+      </section>
+
+      <!-- 2. Classic GPT-2 / GPT-3 (Standard MHA) Block Diagram -->
+      <section class="sketch-card">
+        <header class="header-area">
+          <h2 class="header-title">Anatomy of a GPT-2 / GPT-3 Block</h2>
+          <p class="header-subtitle">Left: Learned position embeddings + L stacked blocks · Right: 2-matrix GELU MLP (4d expansion) &amp; 1:1 Multi-Head Attention (H_q = H_k = H_v)</p>
+        </header>
+        <div class="svg-scroll-container">
+          <object class="sketch-svg" type="image/svg+xml" data="./assets/gpt-block.svg" aria-label="Anatomy of a GPT-2 / GPT-3 Block Diagram"></object>
+        </div>
+      </section>
+
+      <!-- 3. Llama 3 (GQA + SwiGLU) Block Diagram -->
+      <section class="sketch-card">
+        <header class="header-area">
+          <h2 class="header-title">Anatomy of a Llama 3 Block</h2>
+          <p class="header-subtitle">Left: How L blocks stack along the residual stream · Right: Zoomed-in mechanics of Attention (token mixing) vs. FFN (channel mixing)</p>
+        </header>
+        <div class="svg-scroll-container">
+          <object class="sketch-svg" type="image/svg+xml" data="./assets/llama3-block.svg" aria-label="Anatomy of a Llama 3 Block Diagram"></object>
+        </div>
+      </section>
+
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p><a href="../index.html">← Back to Home</a> · Built with HTML5 & CSS</p>
+  </footer>
+
+</body>
+</html>
